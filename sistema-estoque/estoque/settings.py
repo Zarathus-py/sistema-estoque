@@ -18,18 +18,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD:sistema-estoque/estoque/settings.py
-    'app_estoque',
-=======
     'estoque',
-    'whitenoise.runserver_nostatic',  # Whitenoise app
->>>>>>> 1699f02a666bb892e1fbfcb4c9319b2c9f519c31:estoque_project/estoque_project/settings.py
+    'whitenoise.runserver_nostatic',
 ]
 
 # Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Adicionado na ordem correta
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -61,15 +57,9 @@ WSGI_APPLICATION = 'estoque_project.wsgi.application'
 
 # Banco de dados
 DATABASES = {
-<<<<<<< HEAD:sistema-estoque/estoque/settings.py
-    'default': {
-	'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-    }
-=======
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
->>>>>>> 1699f02a666bb892e1fbfcb4c9319b2c9f519c31:estoque_project/estoque_project/settings.py
 }
 
 # Validação de senha
@@ -91,18 +81,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-<<<<<<< HEAD:sistema-estoque/estoque/settings.py
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = 'static/'
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-=======
-# AutoField padrão
->>>>>>> 1699f02a666bb892e1fbfcb4c9319b2c9f519c31:estoque_project/estoque_project/settings.py
+# Campo padrão para chaves primárias
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
