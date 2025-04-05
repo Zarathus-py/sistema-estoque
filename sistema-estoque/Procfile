@@ -1,1 +1,1 @@
-web: gunicorn estoque_project.wsgi
+web: gunicorn estoque.wsgi:application --chdir sistema-estoque
