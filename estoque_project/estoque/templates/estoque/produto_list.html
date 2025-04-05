@@ -1,0 +1,28 @@
+{% extends 'estoque/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Lista de Produtos</h2>
+    <a href="{% url 'produto_create' %}" class="btn btn-success mb-3">+ Novo Produto</a>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nome</th><th>Descrição</th><th>Preço</th><th>Quantidade</th><th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.descricao }}</td>
+                <td>R$ {{ produto.preco }}</td>
+                <td>{{ produto.quantidade }}</td>
+                <td>
+                    <a href="{% url 'produto_update' produto.pk %}" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="{% url 'produto_delete' produto.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

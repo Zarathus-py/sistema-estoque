@@ -1,0 +1,117 @@
+{% extends 'estoque/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">📊 <strong>Relatórios de Estoque</strong></h1>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">🔥 Produtos Mais Movimentados</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Total Movimentado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in movimentacoes %}
+          <tr>
+            <td>{{ item.produto__nome }}</td>
+            <td><span class="badge bg-info text-dark">{{ item.total_movimentado }} un</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0">📊 Visualização Gráfica — Produtos Mais Movimentados</h5>
+    </div>
+    <div class="card-body">
+      <canvas id="graficoMovimentacoes" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">📦 Estoque Atual</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Valor Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for produto in produtos %}
+          <tr>
+            <td>{{ produto.nome }}</td>
+            <td><span class="badge bg-secondary">{{ produto.quantidade }} un</span></td>
+            <td><span class="text-success fw-bold">{{ produto.valor_total_formatado }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById('graficoMovimentacoes').getContext('2d');
+    const grafico = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: JSON.parse('{{ grafico_labels|safe }}'),
+        datasets: [{
+          label: 'Total Movimentado',
+          data: JSON.parse('{{ grafico_valores|safe }}'),
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Top 10 Produtos Mais Movimentados'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.parsed.y} unidades`;
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Unidades'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Produtos'
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'estoque/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">📦 <strong>Movimentações de Estoque</strong></h1>
+
+  <a href="{% url 'movimentacao_create' %}" class="btn btn-success mb-3">➕ Nova Movimentação</a>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Histórico de Movimentações</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Produto</th>
+            <th>Tipo</th>
+            <th>Quantidade</th>
+            <th>Data</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in movimentacoes %}
+          <tr>
+            <td>{{ m.produto.nome }}</td>
+            <td>
+              <span class="badge {% if m.tipo == 'entrada' %}bg-success{% else %}bg-danger{% endif %}">
+                {{ m.get_tipo_display }}
+              </span>
+            </td>
+            <td>{{ m.quantidade }}</td>
+            <td>{{ m.data|date:"d/m/Y H:i" }}</td>
+            <td>
+              <a href="{% url 'movimentacao_update' m.pk %}" class="btn btn-sm btn-warning">✏️</a>
+              <a href="{% url 'movimentacao_delete' m.pk %}" class="btn btn-sm btn-danger">🗑️</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-muted">Nenhuma movimentação registrada.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
